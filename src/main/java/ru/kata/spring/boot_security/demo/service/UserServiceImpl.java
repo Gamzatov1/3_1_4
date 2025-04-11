@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 import ru.kata.spring.boot_security.demo.repo.UserRepo;
 
 import java.util.HashSet;
@@ -23,14 +21,14 @@ import java.util.Set;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepo userRepository;
-
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
-
 
     @Autowired
     @Lazy
-    public UserServiceImpl(UserRepo userRepository, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepo userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -56,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public User createUser(User user, Set<Role> roles) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roles));
+        user.setRoles(roles);
         return user;
     }
 
@@ -94,7 +92,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
-
-
-
 }

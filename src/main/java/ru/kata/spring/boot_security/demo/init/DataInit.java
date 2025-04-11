@@ -1,30 +1,25 @@
 package ru.kata.spring.boot_security.demo.init;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repo.RoleRepo;
 import ru.kata.spring.boot_security.demo.repo.UserRepo;
-
-import java.util.Optional;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 
 @Component
 public class DataInit implements CommandLineRunner {
 
     private final UserRepo userRepository;
-
-    private final RoleRepo roleRepository;
-
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DataInit(UserRepo userRepository, RoleRepo roleRepository, PasswordEncoder passwordEncoder) {
+    public DataInit(UserRepo userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -40,13 +35,14 @@ public class DataInit implements CommandLineRunner {
     }
 
     private Role createRoleIfNotExists(String roleName) {
-        Optional<Role> existingRole = roleRepository.findByName(roleName);
-        if (existingRole.isPresent()) {
-            return existingRole.get();
+        Role existingRole = roleService.findByName(roleName);
+        if (existingRole != null) {
+            return existingRole;
         } else {
             Role newRole = new Role();
             newRole.setName(roleName);
-            return roleRepository.save(newRole);
+            roleService.saveRole(newRole);
+            return newRole;
         }
     }
 

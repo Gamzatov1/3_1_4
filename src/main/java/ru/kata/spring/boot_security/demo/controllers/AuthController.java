@@ -10,4 +10,15 @@ public class AuthController {
     public String loginPage() {
         return "login";
     }
+
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "users";
+    }
+
+
+    @GetMapping("/user")
+    public String userPage() {
+        return "user";
+    }
 }

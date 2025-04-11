@@ -1,57 +1,39 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #fff;
-        }
-
-        .form-signin {
-            width: 100%;
-            max-width: 330px;
-            padding: 15px;
-            margin: 40px auto 0;
-        }
-
-        .form-signin .form-control {
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .form-signin input {
-            margin-bottom: 10px;
-        }
-
-        .form-signin h1 {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .btn-primary {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-        }
-    </style>
-    <title>Login page</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<form class="form-signin" method="post" action="/process_login">
-    <h1>Please sign in</h1>
-    
-    <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
-    <input type="password" name="password" class="form-control" placeholder="Password" required>
-
-    <div th:if="${param.error}" style="color: red">
-        Неправильные email или пароль
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Please sign in</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/process_login">
+                        <div class="form-group mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Email" required autofocus>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                        <div th:if="${param.error}" class="alert alert-danger mt-3">
+                            Bad credentials
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <button type="submit" class="btn btn-primary w-100">Sign in</button>
-</form>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
