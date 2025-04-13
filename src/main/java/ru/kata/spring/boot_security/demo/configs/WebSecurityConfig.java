@@ -35,16 +35,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                // Static resources
-                .antMatchers("/js/**", "/css/**").permitAll()
-                // Login page
+                .antMatchers("/js/**").permitAll()
                 .antMatchers("/login").permitAll()
-                // API endpoints
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                // Page endpoints
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -59,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .and()
-                // Добавляем обработку CORS
                 .cors();
     }
 

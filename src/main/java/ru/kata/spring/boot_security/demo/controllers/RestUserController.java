@@ -17,7 +17,7 @@ public class RestUserController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<User> getUserInfo(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
